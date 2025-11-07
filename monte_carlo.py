@@ -671,7 +671,13 @@ class ConsolidatedResults:
         axes[0, 0].axis('off')
         
         # Métrica 2: Sharpe Ratio
-        sharpe = stats.get('sharpe_ratio', 0)
+        # Calcular manualmente: Sharpe = (Expected Return - Risk Free) / Volatility
+        expected_return = stats['expected_return']
+        volatility = stats['std_return']
+        risk_free_rate = 4.0  # Aproximado 4% anual (T-Bills 3M)
+        
+        sharpe = (expected_return - risk_free_rate) / volatility if volatility > 0 else 0
+        
         axes[0, 1].text(0.5, 0.5, f"{sharpe:.3f}", 
                        ha='center', va='center', fontsize=36, fontweight='bold')
         axes[0, 1].text(0.5, 0.2, 'Sharpe Ratio', ha='center', fontsize=14)
